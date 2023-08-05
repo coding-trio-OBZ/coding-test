@@ -1,0 +1,42 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int n, int[] lost, int[] reserve) {
+        int answer = n - lost.length;
+        
+        Map<Integer, Integer> reserveMap = new HashMap<>();
+        Map<Integer, Integer> lostMap = new HashMap<>();
+        
+        for (int r : reserve) {
+            reserveMap.put(r, r);
+        }
+        
+        for (int l : lost) {
+            lostMap.put(l, l);
+        }
+        
+        
+        // 1. 여분 체육복을 가지고 왔는데 자기 체육복 잃어버린 사람 제외
+        for (int l : lost) {
+            if (reserveMap.get(l) != null && lostMap.get(l) != null) {
+                reserveMap.remove(l);
+                lostMap.remove(l);
+                answer++;
+            }
+        }
+        
+        // 2. 빌려주기
+        for (int l : lostMap.keySet()) {
+            if (reserveMap.get(l - 1) != null) {
+                reserveMap.remove(l - 1);
+                answer++;
+            }
+            else if (reserveMap.get(l + 1) != null) {
+                reserveMap.remove(l + 1);
+                answer++;
+            }
+        }
+        
+        return answer;
+    }
+}
