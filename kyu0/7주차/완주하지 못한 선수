@@ -1,0 +1,39 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String[] participant, String[] completion) {
+        String answer = "";
+        
+        Map<String, Integer> participantMap = new HashMap<>();
+        
+        // 1. 총 참여자 Map에 저장
+        for (String p : participant) {
+            int count;
+            if (participantMap.get(p) == null) {
+                count = 1;
+            }
+            else {
+                count = participantMap.get(p) + 1;
+            }
+            
+            participantMap.put(p, count);
+        }
+        
+        // 2. 완주자들을 Map에서 제외
+        for (String c : completion) {
+            int count = participantMap.get(c);
+            
+            if (count == 1) {
+                participantMap.remove(c);
+            }
+            else {
+                participantMap.put(c, count - 1);
+            }
+        }
+        
+        // 1명만 완주하지 않았음이 자명하므로 keySet에서 첫번째 요소만 추출
+        answer = participantMap.keySet().stream().findFirst().get();
+        
+        return answer;
+    }
+}
