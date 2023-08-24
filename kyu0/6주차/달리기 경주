@@ -1,0 +1,32 @@
+import java.util.*;
+
+class Solution {
+    private Map<String, Integer> nameToRank = new HashMap<>();
+    private Map<Integer, String> rankToName = new HashMap<>();
+    
+    public String[] solution(String[] players, String[] callings) {
+        String[] answer = new String[players.length];
+        
+        for (int i = 0 ; i < players.length ; i++) {
+            nameToRank.put(players[i], i);
+            rankToName.put(i, players[i]);
+        }
+        
+        for (int i = 0 ; i < callings.length ; i++) {
+            String calledName = callings[i], overTakenName;
+            int calledRank = nameToRank.get(calledName), overTakenRank = calledRank - 1;
+            overTakenName = rankToName.get(overTakenRank);
+            
+            nameToRank.put(calledName, overTakenRank);
+            nameToRank.put(overTakenName, calledRank);
+            rankToName.put(overTakenRank, calledName);
+            rankToName.put(calledRank, overTakenName);
+        }
+        
+        for (int i = 0 ; i < players.length ; i++) {
+            answer[i] = rankToName.get(i);
+        }
+        
+        return answer;
+    }
+}
