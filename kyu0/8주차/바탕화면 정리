@@ -1,0 +1,37 @@
+class Solution {
+    public int[] solution(String[] wallpaper) {
+        int[] answer = {-1, -1, -1, -1}; // {lux, luy, rdx, rdy}
+        int w = wallpaper[0].length(), h = wallpaper.length;
+        
+        int tempValue = -1;
+        // 1. luy, rdy 찾기
+        for (int i = 0 ; i < w; i++) {
+            for (int j = 0 ; j < h; j++) {
+                if (wallpaper[j].charAt(i) == '#') {
+                    tempValue = i;
+                    if (answer[1] == -1) { // 처음 만난 '#' 이라면 luy에 저장
+                        answer[1] = tempValue;
+                    }
+                }
+            }
+        }
+        // 마지막에 만난 '#' 이라면 rdy에 저장
+        answer[3] = tempValue+1;
+        
+        tempValue = -1;
+        // 2. lux, rdx 찾기
+        for (int i = 0 ; i < h ; i++) {
+            for (int j = 0 ; j < w ; j++) {
+                if (wallpaper[i].charAt(j) == '#') {
+                    tempValue = i;
+                    if (answer[0] == -1) {
+                        answer[0] = tempValue;
+                    }
+                }
+            }
+        }
+        answer[2] = tempValue+1;
+        
+        return answer;
+    }
+}
